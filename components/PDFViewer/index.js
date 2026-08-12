@@ -1,26 +1,34 @@
-import "@react-pdf-viewer/core/lib/styles/index.css";
-import "@react-pdf-viewer/zoom/lib/styles/index.css";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
 import { useTheme } from "next-themes";
-import { Dialog } from "@headlessui/react";
-import { Viewer, Worker } from "@react-pdf-viewer/core";
-import { getFilePlugin } from "@react-pdf-viewer/get-file";
+import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { Document, Page, pdfjs } from "react-pdf";
 import Button from "../Button";
-import packageJson from "../../package.json";
-import { zoomPlugin } from "@react-pdf-viewer/zoom";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FaMagnifyingGlassMinus, FaMagnifyingGlassPlus } from "react-icons/fa6";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+
+const MIN_SCALE = 0.5;
+const MAX_SCALE = 3;
 
 const PDFViewer = ({ isOpen, onClose, fileUrl }) => {
   const { theme } = useTheme();
-  const pdfjsVersion = packageJson.dependencies["pdfjs-dist"];
-  const getFilePluginInstance = getFilePlugin();
-  const zoomPluginInstance = zoomPlugin();
-  const { Download } = getFilePluginInstance;
-  const { CurrentScale, ZoomIn, ZoomOut } = zoomPluginInstance;
-  const [fileName, setFileNmae] = useState("");
-  const handleDocumentLoad = (e) => {
-    setFileNmae(e.file.name.split(".pdf")[0]);
+  const [numPages, setNumPages] = useState(0);
+  const [scale, setScale] = useState(1);
+
+  const fileName = useMemo(() => {
+    if (!fileUrl) return "";
+    const lastSegment = fileUrl.split("/").pop().split("?")[0];
+    return decodeURIComponent(lastSegment).replace(/\.pdf$/i, "");
+  }, [fileUrl]);
+
+  const handleDocumentLoad = ({ numPages }) => {
+    setNumPages(numPages);
   };
+
+  const zoomIn = () => setScale((prev) => Math.min(prev + 0.2, MAX_SCALE));
+  const zoomOut = () => setScale((prev) => Math.max(prev - 0.2, MIN_SCALE));
 
   return (
     <Dialog
@@ -30,12 +38,12 @@ const PDFViewer = ({ isOpen, onClose, fileUrl }) => {
       className="relative z-1000 focus:outline-none"
     >
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-        <Dialog.Panel
-          className={`w-full  ${
+        <DialogPanel
+          className={`w-full h-full ${
             theme === "dark" ? "bg-slate-800" : "bg-white"
           } p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0`}
         >
-          <Dialog.Title
+          <DialogTitle
             as="div"
             className={`flex items-center justify-between  font-medium pl-2  ${
               theme === "dark" ? "text-white" : "text-slate-800"
@@ -47,47 +55,39 @@ const PDFViewer = ({ isOpen, onClose, fileUrl }) => {
                 theme === "dark" ? "text-white" : "text-slate-800"
               }`}
             >
-              <ZoomIn>
-                {(props) => (
-                  <Button onClick={props.onClick}>
-                    <FaMagnifyingGlassPlus />
-                  </Button>
-                )}
-              </ZoomIn>
-              <CurrentScale>
-                {(props) => <>{`${Math.round(props.scale * 100)}%`}</>}
-              </CurrentScale>
-              <ZoomOut>
-                {(props) => (
-                  <Button onClick={props.onClick}>
-                    <FaMagnifyingGlassMinus />
-                  </Button>
-                )}
-              </ZoomOut>
+              <Button onClick={zoomIn}>
+                <FaMagnifyingGlassPlus />
+              </Button>
+              <span>{`${Math.round(scale * 100)}%`}</span>
+              <Button onClick={zoomOut}>
+                <FaMagnifyingGlassMinus />
+              </Button>
             </div>
             <div className="flex items-center">
-              <Download>
-                {(props) => (
-                  <Button type="primary" onClick={props.onClick}>
-                    Download
-                  </Button>
-                )}
-              </Download>
+              <a href={fileUrl} download={`${fileName}.pdf`}>
+                <Button type="primary">Download</Button>
+              </a>
               <Button onClick={onClose}>Close</Button>
             </div>
-          </Dialog.Title>
+          </DialogTitle>
 
-          <Worker
-            workerUrl={`https://unpkg.com/pdfjs-dist@${pdfjsVersion}/build/pdf.worker.min.js`}
-          >
-            <Viewer
-              fileUrl={fileUrl}
-              plugins={[getFilePluginInstance, zoomPluginInstance]}
-              onDocumentLoad={handleDocumentLoad}
-              theme={theme}
-            />
-          </Worker>
-        </Dialog.Panel>
+          <div className="max-h-[88vh] overflow-auto flex flex-col items-center">
+            <Document
+              file={fileUrl}
+              onLoadSuccess={handleDocumentLoad}
+              loading="Loading PDF..."
+            >
+              {Array.from(new Array(numPages), (_, index) => (
+                <Page
+                  key={`page_${index + 1}`}
+                  pageNumber={index + 1}
+                  scale={scale}
+                  className="mb-2"
+                />
+              ))}
+            </Document>
+          </div>
+        </DialogPanel>
       </div>
     </Dialog>
   );
