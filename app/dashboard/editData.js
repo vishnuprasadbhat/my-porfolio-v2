@@ -5,7 +5,7 @@ import Cursor from "@/components/Cursor";
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import { updateLocalFile, updatePortfolio } from "../actions";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import Toaster from "@/components/Toaster";
 import { toast } from "react-toastify";
 import Button from "@/components/Button";
@@ -15,7 +15,7 @@ const initialState = { msg: "", status: "" };
 const EditData = ({ myData, id }) => {
   const [data, setData] = useState(myData);
   const [currentTabs, setCurrentTabs] = useState("HEADER");
-  const [updateStatus, formAction] = useFormState(
+  const [updateStatus, formAction] = useActionState(
     updatePortfolio,
     initialState
   );
