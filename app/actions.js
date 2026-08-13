@@ -1,7 +1,7 @@
 "use server";
 import fs from "fs";
 import { join } from "path";
-import { sql } from "@vercel/postgres";
+import { sql } from "@/utils/db";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
 import { signIn, signOut } from "@/auth";
