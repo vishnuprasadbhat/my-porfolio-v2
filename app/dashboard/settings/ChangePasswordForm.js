@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
+import { FaArrowRight } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { changePassword } from "@/app/actions";
 import Button from "@/components/Button";
@@ -21,7 +22,10 @@ const ChangePasswordForm = () => {
       <div className="flex-1 rounded-lg px-6 pb-4 pt-8 border">
         <h1 className="mb-3 text-xl">Change password</h1>
         <div>
-          <label className="mb-3 mt-5 block text-xs font-medium" htmlFor="currentPassword">
+          <label
+            className="mb-3 mt-5 block text-xs font-medium"
+            htmlFor="currentPassword"
+          >
             Current password
           </label>
           <input
@@ -33,7 +37,10 @@ const ChangePasswordForm = () => {
           />
         </div>
         <div className="mt-4">
-          <label className="mb-3 mt-5 block text-xs font-medium" htmlFor="newPassword">
+          <label
+            className="mb-3 mt-5 block text-xs font-medium"
+            htmlFor="newPassword"
+          >
             New password
           </label>
           <input
@@ -46,7 +53,10 @@ const ChangePasswordForm = () => {
           />
         </div>
         <div className="mt-4">
-          <label className="mb-3 mt-5 block text-xs font-medium" htmlFor="confirmPassword">
+          <label
+            className="mb-3 mt-5 block text-xs font-medium"
+            htmlFor="confirmPassword"
+          >
             Confirm new password
           </label>
           <input
@@ -58,7 +68,11 @@ const ChangePasswordForm = () => {
             minLength={12}
           />
         </div>
-        <Button type="primary" classes="mx-0 mt-5 w-full flex cursor-pointer" isForm>
+        <Button
+          type="primary"
+          classes="mx-0 mt-5 tablet:mx-0 tablet:mt-5 laptop:mt-10 laptop:mx-0 w-full flex items-center justify-center cursor-pointer"
+          isForm
+        >
           Update password
         </Button>
       </div>

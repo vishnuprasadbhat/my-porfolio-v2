@@ -3,7 +3,11 @@ import { authConfig } from "./auth.config";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import { sql } from "@/utils/db";
-import { evaluateLoginAttempt, recordFailedAttempt, recordSuccessfulLogin } from "@/lib/auth/lockout";
+import {
+  evaluateLoginAttempt,
+  recordFailedAttempt,
+  recordSuccessfulLogin,
+} from "@/lib/auth/lockout";
 import { sanitizeUser } from "@/lib/auth/sanitizeUser";
 const bcrypt = require("bcryptjs");
 
@@ -57,7 +61,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return sanitizeUser(user);
         }
 
-        await updateLockoutState(email, recordFailedAttempt(toLockoutState(user), now));
+        await updateLockoutState(
+          email,
+          recordFailedAttempt(toLockoutState(user), now),
+        );
         console.log("Invalid credentials");
         return null;
       },

@@ -4,7 +4,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 
 export default async function LoginPage() {
   return (
-    <main className="flex mob:items-start items-center justify-center h-screen cursor-auto">
+    <main className="flex items-start justify-center h-screen cursor-auto">
       <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
         <div className="w-32  laptop:w-36">
           <Link

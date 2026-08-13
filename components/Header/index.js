@@ -11,6 +11,7 @@ import {
   FaXmark,
   FaPowerOff,
   FaArrowRightToBracket,
+  FaGear,
 } from "react-icons/fa6";
 import { usePathname, useRouter } from "next/navigation";
 import HeaderSkeleton from "./skeleton";
@@ -91,15 +92,22 @@ const Header = ({
                     )}
                   </PopoverButton>
                 ) : (
-                  <form action={appSignOut}>
-                    <Button
-                      isForm
-                      classes="mob:text-xl mob:py-2"
-                      title="Logout"
-                    >
-                      <FaPowerOff className="text-red-400" />
-                    </Button>
-                  </form>
+                  <div className="flex items-center">
+                    <Link href="/dashboard/settings">
+                      <Button classes="mob:text-xl mob:py-2" title="Settings">
+                        <FaGear className="w-5 h-6" />
+                      </Button>
+                    </Link>
+                    <form action={appSignOut}>
+                      <Button
+                        isForm
+                        classes="mob:text-xl mob:py-2"
+                        title="Logout"
+                      >
+                        <FaPowerOff className="text-red-400 w-5 h-6" />
+                      </Button>
+                    </form>
+                  </div>
                 )}
               </div>
             </div>
@@ -228,6 +236,11 @@ const Header = ({
                 )}
               </Button>
             )}
+            <Link href="/dashboard/settings">
+              <Button classes="mob:text-xl mob:py-2" title="Settings">
+                <FaGear />
+              </Button>
+            </Link>
             <form action={appSignOut}>
               <Button title="Logout" classes="p-4" isForm>
                 <FaPowerOff className="text-red-400" />
