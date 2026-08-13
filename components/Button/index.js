@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useTheme } from "next-themes";
 import data from "../../data/portfolio.json";
 import { useFormStatus } from "react-dom";
@@ -7,15 +7,6 @@ import { useFormStatus } from "react-dom";
 const Button = ({ children, type, onClick, classes, isForm, ...rest }) => {
   const { theme } = useTheme();
   const { pending } = useFormStatus();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
-
   if (type === "primary") {
     return (
       <button

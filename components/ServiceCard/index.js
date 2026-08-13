@@ -1,14 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 
 const ServiceCard = ({ name, description }) => {
   const { theme } = useTheme();
-  const [mounted, setMounted] = useState();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
   return (
     <div
       className={`w-full p-2 mob:p-4 rounded-lg transition-all ease-out duration-300 ${

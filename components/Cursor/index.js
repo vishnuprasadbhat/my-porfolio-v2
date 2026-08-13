@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useTheme } from "next-themes";
 
-const Cursor = ({ zIndex }) => {
+const Cursor = () => {
   const theme = useTheme();
   const color = theme.theme === "dark" ? "#ffffff" : "#000000";
 
@@ -78,7 +78,7 @@ const Cursor = ({ zIndex }) => {
       canvas.style.pointerEvents = "none";
       canvas.width = width;
       canvas.height = height;
-      canvas.style.zIndex = zIndex ? zIndex.toString() : "";
+      canvas.style.zIndex = "";
       document.body.appendChild(canvas);
       window.addEventListener("mousemove", onMouseMove);
       window.addEventListener("resize", onWindowResize);
