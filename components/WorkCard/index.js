@@ -3,7 +3,7 @@ import Button from "../Button";
 import Image from "next/image";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
-const WorkCard = ({ img, name, description, url, onClick }) => {
+const WorkCard = ({ img, name, description, url, onClick, isAboveFold }) => {
   return (
     <div className={`overflow-hidden rounded-lg p-2 laptop:p-4 first:ml-0`}>
       <div
@@ -17,7 +17,7 @@ const WorkCard = ({ img, name, description, url, onClick }) => {
           width={500}
           height={500}
           quality={100}
-          loading="lazy"
+          loading={isAboveFold ? "eager" : "lazy"}
           priority={false}
         ></Image>
       </div>
