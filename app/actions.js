@@ -15,7 +15,7 @@ export const updateLocalFile = async (data) => {
       portfolioData,
       JSON.stringify(data),
       "utf-8",
-      (err) => console.log(err)
+      (err) => console.log(err),
     );
   }
 };
@@ -71,6 +71,7 @@ export async function authenticate(prevState, formData) {
   }
 }
 
-export async function appSignOut(prevState, formData) {
-  await signOut({ redirectTo: "/" });
+export async function appSignOut() {
+  await signOut({ redirect: false, redirectTo: "/" });
+  redirect("/");
 }

@@ -61,7 +61,7 @@ export default function Home({ data }) {
     stagger(
       [textOne.current, textTwo.current, textThree.current, textFour.current],
       { y: 40, x: -10, transform: "scale(0.95) skew(10deg)" },
-      { y: 0, x: 0, transform: "scale(1)" }
+      { y: 0, x: 0, transform: "scale(1)" },
     );
   }, []);
 
@@ -111,13 +111,14 @@ export default function Home({ data }) {
       <div className="mt-10 laptop:mt-30 laptop:p-0" ref={workRef}>
         <h1 className="px-2 text-2xl text-bold">Work.</h1>
         <div className="mt-5 laptop:mt-10 grid grid-cols-1 tablet:grid-cols-2 gap-4">
-          {data?.projects?.map((project) => (
+          {data?.projects?.map((project, index) => (
             <WorkCard
               key={project.id}
               img={project.imageSrc}
               name={project.title}
               url={project.url}
               description={project.description}
+              isAboveFold={index === 0}
               onClick={() => project.url && window.open(project.url)}
             />
           ))}
@@ -161,14 +162,14 @@ export default function Home({ data }) {
       <div ref={contactRef}>
         <Footer data={data} />
       </div>
-      <div className="absolute right-1 bottom-14 tablet:right-2 tablet:bottom-5  laptop:-right-5 laptop:bottom-0">
+      <div className="absolute right-1 bottom-14 tablet:right-2 tablet:bottom-5  laptop:right-5 laptop:bottom-0">
         <Image
           src="/images/contact.png"
           width={368}
           height={592}
           alt="contact"
           quality={100}
-          loading="lazy"
+          loading="eager"
           className="w-32 tablet:w-52 laptop:w-96"
           priority={false}
         ></Image>

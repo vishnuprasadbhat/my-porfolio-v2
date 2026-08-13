@@ -1,3 +1,5 @@
+"use client";
+import "react-toastify/dist/ReactToastify.css";
 import { useTheme } from "next-themes";
 import { ToastContainer } from "react-toastify";
 

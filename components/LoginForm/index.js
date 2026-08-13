@@ -6,12 +6,12 @@ import {
   FaCircleExclamation,
   FaArrowRight,
 } from "react-icons/fa6";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { authenticate } from "@/app/actions";
 import Button from "../Button";
 
 export default function LoginForm() {
-  const [errorMessage, formAction] = useFormState(authenticate, undefined);
+  const [errorMessage, formAction] = useActionState(authenticate, undefined);
 
   return (
     <form action={formAction} className="space-y-3">

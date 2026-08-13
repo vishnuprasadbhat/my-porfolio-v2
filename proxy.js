@@ -8,7 +8,7 @@ export const config = {
   // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
   matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
 };
-export function middleware(request) {
+export function proxy(request) {
   const url = request.nextUrl.clone();
 
   // List of external URLs that should not have the base URL appended

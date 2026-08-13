@@ -1,9 +1,9 @@
 "use client";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
-import React, { useEffect, useState } from "react";
+import React, { useState, useSyncExternalStore } from "react";
 import Button from "../Button";
-import PDFViewer from "../PDFViewer";
 import {
   FaSun,
   FaMoon,
@@ -17,6 +17,8 @@ import HeaderSkeleton from "./skeleton";
 import Link from "next/link";
 import { appSignOut } from "@/app/actions";
 
+const PDFViewer = dynamic(() => import("../PDFViewer"), { ssr: false });
+
 const Header = ({
   handleWorkScroll,
   handleAboutScroll,
@@ -29,15 +31,15 @@ const Header = ({
   const router = useRouter();
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   const [isOpen, setIsOpen] = useState(false);
 
   const { name, email, showBlog, showResume, isResumePDF, resumeLink } =
     data ?? {};
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!mounted) {
     return <HeaderSkeleton />;

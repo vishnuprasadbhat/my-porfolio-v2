@@ -5,7 +5,7 @@ import Cursor from "@/components/Cursor";
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import { updateLocalFile, updatePortfolio } from "../actions";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import Toaster from "@/components/Toaster";
 import { toast } from "react-toastify";
 import Button from "@/components/Button";
@@ -15,9 +15,9 @@ const initialState = { msg: "", status: "" };
 const EditData = ({ myData, id }) => {
   const [data, setData] = useState(myData);
   const [currentTabs, setCurrentTabs] = useState("HEADER");
-  const [updateStatus, formAction] = useFormState(
+  const [updateStatus, formAction] = useActionState(
     updatePortfolio,
-    initialState
+    initialState,
   );
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const EditData = ({ myData, id }) => {
 
   // Project Handler
   const editProjects = (projectIndex, editProject) => {
-    let copyProjects = data.projects;
+    const copyProjects = [...data.projects];
     copyProjects[projectIndex] = { ...editProject };
     setData({ ...data, projects: copyProjects });
   };
@@ -69,7 +69,7 @@ const EditData = ({ myData, id }) => {
   // Services Handler
 
   const editServices = (serviceIndex, editService) => {
-    let copyServices = data.services;
+    const copyServices = [...data.services];
     copyServices[serviceIndex] = { ...editService };
     setData({ ...data, services: copyServices });
   };
@@ -98,7 +98,7 @@ const EditData = ({ myData, id }) => {
   // Tech Stack Handler
 
   const editTechStack = (techStackIndex, editTechStack) => {
-    let copyTechStacks = data.techStacks;
+    const copyTechStacks = [...data.techStacks];
     copyTechStacks[techStackIndex] = { ...editTechStack };
     setData({ ...data, techStacks: copyTechStacks });
   };
@@ -118,15 +118,16 @@ const EditData = ({ myData, id }) => {
   };
 
   const deleteTechStack = (id) => {
-    let copyTechStacks = data.techStacks;
-    copyTechStacks = copyTechStacks.filter((techStack) => techStack.id !== id);
+    const copyTechStacks = data.techStacks.filter(
+      (techStack) => techStack.id !== id,
+    );
     setData({ ...data, techStacks: copyTechStacks });
   };
 
   // Socials Handler
 
   const editSocials = (socialIndex, editSocial) => {
-    let copySocials = data.socials;
+    const copySocials = [...data.socials];
     copySocials[socialIndex] = { ...editSocial };
     setData({ ...data, socials: copySocials });
   };
@@ -146,8 +147,7 @@ const EditData = ({ myData, id }) => {
   };
 
   const deleteSocials = (id) => {
-    let copySocials = data.socials;
-    copySocials = copySocials.filter((social) => social.id !== id);
+    const copySocials = data.socials.filter((social) => social.id !== id);
     setData({ ...data, socials: copySocials });
   };
 
@@ -173,7 +173,7 @@ const EditData = ({ myData, id }) => {
   };
 
   const handleEditExperiences = (index, editExperience) => {
-    let copyExperiences = data.resume.experiences;
+    const copyExperiences = [...data.resume.experiences];
     copyExperiences[index] = { ...editExperience };
     setData({
       ...data,
@@ -697,52 +697,50 @@ const EditData = ({ myData, id }) => {
             {currentTabs === "SOCIAL" && (
               <div className="mt-10">
                 {data.socials.map((social, index) => (
-                  <>
-                    <div key={social.id}>
-                      <div className="flex items-center justify-between">
-                        <h1 className="text-2xl">{social.title}</h1>
-                        <Button
-                          onClick={() => deleteSocials(social.id)}
-                          type="primary"
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                      <div className="flex items-center mt-5">
-                        <label className="w-2/6 mr-5 text-lg opacity-50">
-                          Title
-                        </label>
-                        <input
-                          value={social.title}
-                          onChange={(e) =>
-                            editSocials(index, {
-                              ...social,
-                              title: e.target.value,
-                            })
-                          }
-                          className="w-full mr-auto p-2 rounded-md shadow-lg border-2"
-                          type="text"
-                        ></input>
-                      </div>
-                      <div className="flex items-center mt-5">
-                        <label className="w-2/6 mr-5 text-lg opacity-50">
-                          Link
-                        </label>
-                        <input
-                          value={social.link}
-                          onChange={(e) =>
-                            editSocials(index, {
-                              ...social,
-                              link: e.target.value,
-                            })
-                          }
-                          className="w-full mr-auto p-2 rounded-md shadow-lg border-2"
-                          type="text"
-                        />
-                      </div>
-                      <hr className="my-10"></hr>
+                  <div key={social.id}>
+                    <div className="flex items-center justify-between">
+                      <h1 className="text-2xl">{social.title}</h1>
+                      <Button
+                        onClick={() => deleteSocials(social.id)}
+                        type="primary"
+                      >
+                        Delete
+                      </Button>
                     </div>
-                  </>
+                    <div className="flex items-center mt-5">
+                      <label className="w-2/6 mr-5 text-lg opacity-50">
+                        Title
+                      </label>
+                      <input
+                        value={social.title}
+                        onChange={(e) =>
+                          editSocials(index, {
+                            ...social,
+                            title: e.target.value,
+                          })
+                        }
+                        className="w-full mr-auto p-2 rounded-md shadow-lg border-2"
+                        type="text"
+                      ></input>
+                    </div>
+                    <div className="flex items-center mt-5">
+                      <label className="w-2/6 mr-5 text-lg opacity-50">
+                        Link
+                      </label>
+                      <input
+                        value={social.link}
+                        onChange={(e) =>
+                          editSocials(index, {
+                            ...social,
+                            link: e.target.value,
+                          })
+                        }
+                        className="w-full mr-auto p-2 rounded-md shadow-lg border-2"
+                        type="text"
+                      />
+                    </div>
+                    <hr className="my-10"></hr>
+                  </div>
                 ))}
                 <div className="my-10">
                   <Button onClick={addSocials} type="primary">
@@ -980,7 +978,7 @@ const EditData = ({ myData, id }) => {
                                 resume: {
                                   ...data.resume,
                                   languages: data.resume.languages.filter(
-                                    (value, i) => index !== i
+                                    (value, i) => index !== i,
                                   ),
                                 },
                               })
@@ -1040,7 +1038,7 @@ const EditData = ({ myData, id }) => {
                                 resume: {
                                   ...data.resume,
                                   frameworks: data.resume.frameworks.filter(
-                                    (value, i) => index !== i
+                                    (value, i) => index !== i,
                                   ),
                                 },
                               })
@@ -1100,7 +1098,7 @@ const EditData = ({ myData, id }) => {
                                 resume: {
                                   ...data.resume,
                                   others: data.resume.others.filter(
-                                    (value, i) => index !== i
+                                    (value, i) => index !== i,
                                   ),
                                 },
                               })

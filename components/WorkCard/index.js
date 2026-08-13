@@ -3,21 +3,18 @@ import Button from "../Button";
 import Image from "next/image";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
-const WorkCard = ({ img, name, description, url, onClick }) => {
+const WorkCard = ({ img, name, description, url, onClick, isAboveFold }) => {
   return (
     <div className={`overflow-hidden rounded-lg p-2 laptop:p-4 first:ml-0`}>
-      <div
-        className="relative rounded-lg overflow-hidden transition-all ease-out duration-300 h-48 mob:h-auto"
-        style={{ height: "300px" }}
-      >
+      <div className="relative aspect-[1366/625] rounded-lg overflow-hidden transition-all ease-out duration-300">
         <Image
           alt={name}
-          className="h-full w-full object-fill hover:scale-110 transition-all ease-out duration-300"
+          className="h-full w-full object-cover hover:scale-110 transition-all ease-out duration-300"
           src={img}
-          width={500}
-          height={500}
+          width={1366}
+          height={625}
           quality={100}
-          loading="lazy"
+          loading={isAboveFold ? "eager" : "lazy"}
           priority={false}
         ></Image>
       </div>
