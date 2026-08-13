@@ -1,9 +1,9 @@
 "use client";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
 import React, { useState, useSyncExternalStore } from "react";
 import Button from "../Button";
-import PDFViewer from "../PDFViewer";
 import {
   FaSun,
   FaMoon,
@@ -16,6 +16,8 @@ import { usePathname, useRouter } from "next/navigation";
 import HeaderSkeleton from "./skeleton";
 import Link from "next/link";
 import { appSignOut } from "@/app/actions";
+
+const PDFViewer = dynamic(() => import("../PDFViewer"), { ssr: false });
 
 const Header = ({
   handleWorkScroll,
