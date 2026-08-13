@@ -162,7 +162,7 @@ export default function Home({ data }) {
       <div ref={contactRef}>
         <Footer data={data} />
       </div>
-      <div className="absolute right-1 bottom-14 tablet:right-2 tablet:bottom-5  laptop:-right-5 laptop:bottom-0">
+      <div className="absolute right-1 bottom-14 tablet:right-2 tablet:bottom-5  laptop:right-5 laptop:bottom-0">
         <Image
           src="/images/contact.png"
           width={368}
