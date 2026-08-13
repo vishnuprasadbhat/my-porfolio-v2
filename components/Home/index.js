@@ -169,7 +169,7 @@ export default function Home({ data }) {
           height={592}
           alt="contact"
           quality={100}
-          loading="lazy"
+          loading="eager"
           className="w-32 tablet:w-52 laptop:w-96"
           priority={false}
         ></Image>
