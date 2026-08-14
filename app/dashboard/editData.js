@@ -28,7 +28,6 @@ const EditData = ({ myData, id }) => {
         toast.error(updateStatus?.msg);
       }
     }
-    console.log(updateStatus?.msg, updateStatus?.status);
   }, [updateStatus?.msg, updateStatus?.status]);
 
   const saveData = async () => {
